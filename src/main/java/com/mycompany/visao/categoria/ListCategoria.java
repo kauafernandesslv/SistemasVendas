@@ -119,7 +119,7 @@ public class ListCategoria extends javax.swing.JFrame {
 
             DaoCategoria daoCategoria = new DaoCategoria();
 
-            //Atribui o resultset retornado a uma variável para ser usada.
+            
             ResultSet resultSet = daoCategoria.listarPorDescricao(pDescricao);
             
             defaultTableModel.setRowCount(0);
