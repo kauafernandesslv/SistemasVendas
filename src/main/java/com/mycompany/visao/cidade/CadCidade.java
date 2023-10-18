@@ -68,13 +68,13 @@ public class CadCidade extends javax.swing.JFrame {
         DaoCidade daoCidade = new DaoCidade();
        
         if (daoCidade.inserir(Integer.parseInt(tfId.getText()),Integer.parseInt(tfIdEstado.getText()), tfNome.getText())){
-            JOptionPane.showMessageDialog(null, "País salvo com sucesso!");
+            JOptionPane.showMessageDialog(null, "Cidade salvo com sucesso!");
            
             tfId.setText("");
             tfIdEstado.setText("");
             tfNome.setText("");
         }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível salvar o País!");
+            JOptionPane.showMessageDialog(null, "Não foi possível salvar o Cidade!");
         }
     }
    
@@ -82,12 +82,12 @@ public class CadCidade extends javax.swing.JFrame {
         DaoCidade daoCidade = new DaoCidade();
        
         if (daoCidade.inserir(Integer.parseInt(tfId.getText()),Integer.parseInt(tfIdEstado.getText()), tfNome.getText())){
-            JOptionPane.showMessageDialog(null, "País alterada com sucesso!");
+            JOptionPane.showMessageDialog(null, "Cidade alterada com sucesso!");
            
             tfId.setText("");
             tfNome.setText("");
         }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível alterar a país!");
+            JOptionPane.showMessageDialog(null, "Não foi possível alterar a cidade!");
         }
        
         ((ListCidade) Formularios.listCidade).listarTodos();
@@ -99,13 +99,13 @@ public class CadCidade extends javax.swing.JFrame {
         DaoCidade daoCidade = new DaoCidade();
        
         if (daoCidade.excluir(Integer.parseInt(tfId.getText()))){
-            JOptionPane.showMessageDialog(null, "País " + tfNome.getText() + " excluído com sucesso!");
+            JOptionPane.showMessageDialog(null, "Cidade " + tfNome.getText() + " excluído com sucesso!");
            
             tfId.setText("");
             tfNome.setText("");
 
         }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível excluir o País!");
+            JOptionPane.showMessageDialog(null, "Não foi possível excluir o Cidade!");
         }
        
         ((ListCidade) Formularios.listCidade).listarTodos();

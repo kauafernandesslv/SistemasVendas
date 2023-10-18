@@ -6,10 +6,13 @@ package com.mycompany.visao.estado;
 
 import com.mycompany.visao.categoria.*;
 import com.mycompany.dao.DaoEstado;
+import com.mycompany.dao.DaoPais;
 import com.mycompany.ferramentas.Constantes;
 import com.mycompany.ferramentas.DadosTemporarios;
 import com.mycompany.ferramentas.Formularios;
 import com.mycompany.modelo.ModEstado;
+import com.mycompany.visao.cidade.ListCidade;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,7 +26,9 @@ public class CadEstado extends javax.swing.JFrame {
      */
     public CadEstado() {
         initComponents();
-     if(!existeDadosTemporarios()){
+          carregarPaises();
+        
+        if(!existeDadosTemporarios()){
             DaoEstado daoEstado = new DaoEstado();
 
             int id = daoEstado.buscarProximoId(); 
@@ -37,26 +42,122 @@ public class CadEstado extends javax.swing.JFrame {
             btnExcluir.setVisible(true);
         }
         
+        recuperaIdPais();
+        
         setLocationRelativeTo(null);
         
         tfId.setEnabled(false);
+        
+        tfIdPais.setVisible(false);
     }
     
     private Boolean existeDadosTemporarios(){        
         if(DadosTemporarios.tempObject instanceof ModEstado){
             int id = ((ModEstado) DadosTemporarios.tempObject).getId();
+            int idPais = ((ModEstado) DadosTemporarios.tempObject).getIdPais();
             String nome = ((ModEstado) DadosTemporarios.tempObject).getNome();
-           
+       
             
             tfId.setText(String.valueOf(id));
+            tfIdPais.setText(String.valueOf(idPais));
             tfNome.setText(nome);
-          
-        
+           
+            
+            //
+            try{
+                DaoPais daoPais = new DaoPais();
+                ResultSet resultSet = daoPais.listarPorId(idPais);
+                resultSet.next();
+                String pais = resultSet.getString("NOME");
+                int index = 0;
+                for(int i = 0; i < jcbPais.getItemCount(); i++){
+                    if(jcbPais.getItemAt(i).equals(pais)){
+                        index = i;
+                        break;
+                    }
+                }
+                jcbPais.setSelectedIndex(index);
+            }catch(Exception e){}
+            //
+            
             DadosTemporarios.tempObject = null;
             
             return true;
         }else
             return false;
+    }
+
+    private void inserir(){
+        DaoEstado daoEstado = new DaoEstado();
+        
+        if (daoEstado.inserir(Integer.parseInt(tfId.getText()), Integer.parseInt(tfIdPais.getText()), tfNome.getText())){
+            JOptionPane.showMessageDialog(null, "Estado salvo com sucesso!");
+            
+            tfId.setText(String.valueOf(daoEstado.buscarProximoId()));
+            tfNome.setText("");
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Não foi possível salvar o estado!");
+        }
+    }
+
+   
+    private void alterar(){
+          DaoEstado daoEstado = new DaoEstado();
+        
+        if (daoEstado.inserir(Integer.parseInt(tfId.getText()),Integer.parseInt(tfIdPais.getText()), tfNome.getText())){
+            JOptionPane.showMessageDialog(null, "País alterada com sucesso!");
+            
+            tfId.setText("");
+            tfNome.setText("");
+        }else{
+            JOptionPane.showMessageDialog(null, "Não foi possível alterar a país!");
+        }
+        
+        ((ListEstado) Formularios.listEstado).listarTodos();
+        
+        dispose();
+    }
+    private void excluir(){
+        DaoPais daoPais = new DaoPais();
+        
+        if (daoPais.excluir(Integer.parseInt(tfId.getText()))){
+            JOptionPane.showMessageDialog(null, "Estado " + tfNome.getText() + " excluída com sucesso!");
+            
+            tfId.setText("");
+            tfNome.setText("");
+        }else{
+            JOptionPane.showMessageDialog(null, "Não foi possível excluir o estado!");
+        }
+        
+        ((ListCidade) Formularios.listCidade).listarTodos();
+        
+        dispose();
+    }
+    
+    private void carregarPaises(){
+        try{
+            DaoPais daoPais = new DaoPais();
+
+            ResultSet resultSet = daoPais.listarTodos();
+
+            while(resultSet.next())
+                jcbPais.addItem(resultSet.getString("NOME"));
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    private void recuperaIdPais(){
+        try{
+            DaoPais daoPais = new DaoPais();
+            ResultSet resultSet = daoPais.listarPorNome(jcbPais.getSelectedItem().toString());
+            
+            resultSet.next();
+            tfIdPais.setText(resultSet.getString("ID"));
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 
     /**
@@ -77,6 +178,8 @@ public class CadEstado extends javax.swing.JFrame {
         tfNome = new javax.swing.JTextField();
         btnAcao = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
+        jcbPais = new javax.swing.JComboBox<>();
+        tfIdPais = new javax.swing.JTextField();
 
         textField1.setText("textField1");
 
@@ -113,16 +216,23 @@ public class CadEstado extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAcao)
-                        .addGap(184, 184, 184)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnExcluir))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel2)
-                        .addComponent(tfId, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
-                        .addComponent(tfNome)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(tfId, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                            .addComponent(tfNome))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jcbPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfIdPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -132,15 +242,19 @@ public class CadEstado extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jcbPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfIdPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addGap(43, 43, 43)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAcao)
                     .addComponent(btnExcluir))
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -186,55 +300,7 @@ public class CadEstado extends javax.swing.JFrame {
             excluir();
         
     }//GEN-LAST:event_btnExcluirActionPerformed
-private void inserir(){
-        DaoEstado daoEstado = new DaoEstado();
-        
-        if (daoEstado.inserir(Integer.parseInt(tfId.getText()), tfNome.getText())){
-            JOptionPane.showMessageDialog(null, "Estado salva com sucesso!");
-            
-            tfId.setText("");
-            tfNome.setText("");
-           
-        }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível salvar a categoria!");
-        }
-    }
-    
-    private void alterar(){
-        DaoEstado daoEstado = new DaoEstado();
-        
-        if (daoEstado.alterar(Integer.parseInt(tfId.getText()), tfNome.getText())){
-            JOptionPane.showMessageDialog(null, "Estado alterada com sucesso!");
-            
-            tfId.setText("");
-            tfNome.setText("");
-           
-        }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível alterar a categoria!");
-        }
-        
-        ((ListEstado) Formularios.listEstado).listarTodos();
-        
-        dispose();
-    }
-    
-    private void excluir(){
-        DaoEstado daoEstado = new DaoEstado();
-        
-        if (daoEstado.excluir(Integer.parseInt(tfId.getText()))){
-            JOptionPane.showMessageDialog(null, "Estado " + tfNome.getText() + " excluída com sucesso!");
-            
-            tfId.setText("");
-            tfNome.setText("");
-           
-        }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível excluir a categoria!");
-        }
-        
-        ((ListEstado) Formularios.listEstado).listarTodos();
-        
-        dispose();
-    }
+
     /**
      * @param args the command line arguments
      */
@@ -278,8 +344,10 @@ private void inserir(){
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JComboBox<String> jcbPais;
     private java.awt.TextField textField1;
     private javax.swing.JTextField tfId;
+    private javax.swing.JTextField tfIdPais;
     private javax.swing.JTextField tfNome;
     // End of variables declaration//GEN-END:variables
 }

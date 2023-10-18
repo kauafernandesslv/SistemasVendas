@@ -10,16 +10,17 @@ package com.mycompany.modelo;
  */
 public class ModEstado {
         private int id;
+    private int idPais;
     private String nome;
 
-    public ModEstado(){
-    }
-    
-
-    public ModEstado(int id, String nome) {
+ public ModEstado(int id, int idPais, String nome) {
         this.id = id;
+        this.idPais = idPais;
         this.nome = nome;
       
+      }
+
+    public ModEstado() {
     }
 
     public int getId() {
@@ -30,6 +31,14 @@ public class ModEstado {
         this.id = id;
     }
 
+    public int getIdPais() {
+        return idPais;
+    }
+
+    public void setIdPais(int idPais) {
+        this.idPais = idPais;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -38,10 +47,10 @@ public class ModEstado {
         this.nome = nome;
     }
 
- 
+  
 
     @Override
     public String toString() {
-        return "Estado{" + "id=" + id + ", nome=" + nome + '}';
+        return "ModEstado{" + "id=" + id + ", idPais=" + idPais + ", nome=" + nome + '}';
     }
 }

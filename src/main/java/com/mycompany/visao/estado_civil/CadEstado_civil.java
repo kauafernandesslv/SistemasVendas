@@ -63,12 +63,12 @@ public class CadEstado_civil extends javax.swing.JFrame {
         DaoEstado_civil daoEstado_civil = new DaoEstado_civil();
         
         if (daoEstado_civil.inserir(Integer.parseInt(tfIdEstado_civil.getText()), tfNome.getText())){
-            JOptionPane.showMessageDialog(null, "País salvo com sucesso!");
+            JOptionPane.showMessageDialog(null, "Estado civil salvo com sucesso!");
             
             tfIdEstado_civil.setText("");
             tfNome.setText("");
         }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível salvar o País!");
+            JOptionPane.showMessageDialog(null, "Não foi possível salvar o Estado civil!");
         }
     }
     
@@ -76,12 +76,12 @@ public class CadEstado_civil extends javax.swing.JFrame {
         DaoEstado_civil daoEstado_civil = new DaoEstado_civil();
         
         if (daoEstado_civil.alterar(Integer.parseInt(tfIdEstado_civil.getText()), tfNome.getText())){
-            JOptionPane.showMessageDialog(null, "País alterada com sucesso!");
+            JOptionPane.showMessageDialog(null, "Estado civil alterada com sucesso!");
             
             tfIdEstado_civil.setText("");
             tfNome.setText("");
         }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível alterar a país!");
+            JOptionPane.showMessageDialog(null, "Não foi possível alterar a estado civil!");
         }
         
         ((ListEstado_civil) Formularios.listEstado_civil).listarTodos();
@@ -93,13 +93,13 @@ public class CadEstado_civil extends javax.swing.JFrame {
         DaoEstado_civil daoEstado_civil = new DaoEstado_civil();
         
         if (daoEstado_civil.excluir(Integer.parseInt(tfIdEstado_civil.getText()))){
-            JOptionPane.showMessageDialog(null, "País " + tfNome.getText() + " excluído com sucesso!");
+            JOptionPane.showMessageDialog(null, "Estado civil " + tfNome.getText() + " excluído com sucesso!");
             
             tfIdEstado_civil.setText("");
             tfNome.setText("");
 
         }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível excluir o País!");
+            JOptionPane.showMessageDialog(null, "Não foi possível excluir o Estado civil!");
         }
         
         ((ListEstado_civil) Formularios.listEstado_civil).listarTodos();
@@ -202,7 +202,7 @@ public class CadEstado_civil extends javax.swing.JFrame {
         int escolha =
         JOptionPane.showConfirmDialog(
             null,
-            "Deseja  excluir essa cidade " + tfNome.getText() + "?");
+            "Deseja  excluir esse estado civil? " + tfNome.getText() + "?");
 
         if(escolha == JOptionPane.YES_OPTION)
         excluir();

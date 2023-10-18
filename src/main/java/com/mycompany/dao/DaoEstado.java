@@ -25,15 +25,16 @@ public class DaoEstado extends BancoDeDadosMySql {
     
 private String sql; 
 
- public Boolean inserir(int id, String nome){
+public Boolean inserir(int id, int id_pais, String nome){
         try{
-            sql = "INSERT INTO Estado (ID, NOME) VALUES (?, ?)";
+            sql = "INSERT INTO ESTADO (ID, ID_PAIS, NOME) VALUES (?, ?, ?)";
             
             setStatement(getConexao().prepareStatement(sql));
             
             getStatement().setInt(1, id);
-            getStatement().setString(2, nome);
-           
+            getStatement().setInt(2, id_pais);
+            getStatement().setString(3, nome);
+
             
             getStatement().executeUpdate();
             
@@ -43,15 +44,17 @@ private String sql;
             return false;
         }
     }
-      public Boolean alterar(int id, String novoNome){
+    
+    public Boolean alterar(int id, int idNovoPais, String novoNome, String novaUf){
         try{
-            sql = "UPDATE PAIS SET NOME = ? WHERE ID = ?";
+            sql = "UPDATE ESTADO SET ID_PAIS = ?, NOME = ? WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
-            getStatement().setInt(3, id);
-            getStatement().setString(1, novoNome);
-           
+            getStatement().setInt(4, id);
+            getStatement().setInt(1, idNovoPais);
+            getStatement().setString(2, novoNome);
+            getStatement().setString(3, novaUf);
             
             getStatement().executeUpdate();
             
@@ -64,7 +67,7 @@ private String sql;
     
     public Boolean excluir(int id){
         try{
-            sql = "DELETE FROM Estado WHERE ID = ?";
+            sql = "DELETE FROM ESTADO WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -78,13 +81,21 @@ private String sql;
             return false;
         }
     }
+    
     public ResultSet listarTodos(){
         try{
-            sql = "SELECT ID, NOME FROM ESTADO";
+            sql = 
+                " SELECT                    " +
+                "   EST.ID,                 " +
+                "   PA.NOME AS PAIS,        " +
+                "   EST.NOME AS ESTADO     " +
+                " FROM                      " +
+                "   ESTADO EST              " +
+                " JOIN PAIS PA ON           " +
+                "   PA.ID = EST.ID_PAIS     " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
-
             setResultado(getStatement().executeQuery());
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -95,7 +106,18 @@ private String sql;
     
     public ResultSet listarPorId(int id){
         try{
-            sql = "SELECT ID, NOME, IFNULL(, '') FROM PAIS WHERE ID = ?";
+            sql = 
+                " SELECT                    " +
+                "   EST.ID,                 " +
+                "   PA.NOME AS PAIS,        " +
+                "   EST.NOME AS ESTADO     " +
+
+                " FROM                      " +
+                "   ESTADO EST              " +
+                " JOIN PAIS PA ON           " +
+                "   PA.ID = EST.ID_PAIS     " +
+                " WHERE                     " +
+                "   EST.ID = ?              " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -111,7 +133,18 @@ private String sql;
     
     public ResultSet listarPorNome(String nome){
         try{
-            sql = "SELECT ID, NOME FROM PAIS WHERE NOME LIKE ?";
+            sql = 
+                " SELECT                    " +
+                "   EST.ID,                 " +
+                "   PA.NOME AS PAIS,        " +
+                "   EST.NOME AS ESTADO     " +
+
+                " FROM                      " +
+                "   ESTADO EST              " +
+                " JOIN PAIS PA ON           " +
+                "   PA.ID = EST.ID_PAIS     " +
+                " WHERE                     " +
+                "   EST.NOME LIKE ?         " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -123,17 +156,40 @@ private String sql;
         }
         
         return getResultado();
+    }
     
-    
-   
- 
+    public ResultSet listarPorPais(String estado){
+        try{
+            sql = 
+                " SELECT                    " +
+                "   EST.ID,                 " +
+                "   PA.NOME AS PAIS,        " +
+                "   EST.NOME AS ESTADO     " +
+
+                " FROM                      " +
+                "   ESTADO EST              " +
+                " JOIN PAIS PA ON           " +
+                "   PA.ID = EST.ID_PAIS     " +
+                " WHERE                     " +
+                "   PA.NOME LIKE ?             " ;
+            
+            setStatement(getConexao().prepareStatement(sql));
+            
+            getStatement().setString(1, estado + "%");
+            
+            setResultado(getStatement().executeQuery());
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+        return getResultado();
     }
     
     public int buscarProximoId(){
         int id = -1;
         
         try{
-            sql = "SELECT MAX(ID) + 1 FROM PAIS";
+            sql = "SELECT IFNULL(MAX(ID), 0) + 1 FROM ESTADO";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -149,4 +205,3 @@ private String sql;
         return id;
     }
 }
-

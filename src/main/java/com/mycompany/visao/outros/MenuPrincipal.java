@@ -9,6 +9,8 @@ import com.mycompany.visao.categoria.CadCategoria;
 import com.mycompany.visao.categoria.ListCategoria;
 import com.mycompany.visao.cidade.CadCidade;
 import com.mycompany.visao.cidade.ListCidade;
+import com.mycompany.visao.endereco.CadEndereco;
+import com.mycompany.visao.endereco.ListEndereco;
 import com.mycompany.visao.estado.CadEstado;
 import com.mycompany.visao.estado.ListEstado;
 import com.mycompany.visao.estado_civil.CadEstado_civil;
@@ -54,12 +56,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         miCadastroCidade = new javax.swing.JMenuItem();
         miCadastroEstado_civil = new javax.swing.JMenuItem();
+        miCadastroEndereco = new javax.swing.JMenuItem();
         ListCategoria = new javax.swing.JMenu();
         miConsultaCategoria = new javax.swing.JMenuItem();
         miConsultaPais = new javax.swing.JMenuItem();
         miConsultaEstado = new javax.swing.JMenuItem();
         miConsultaCidade = new javax.swing.JMenuItem();
         miConsultaEstado_civil = new javax.swing.JMenuItem();
+        miConsultaEndereco = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -116,6 +120,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(miCadastroEstado_civil);
 
+        miCadastroEndereco.setText("Endereco");
+        miCadastroEndereco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miCadastroEnderecoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(miCadastroEndereco);
+
         jMenuBar1.add(jMenu1);
 
         ListCategoria.setText("Consultas");
@@ -159,6 +171,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
         ListCategoria.add(miConsultaEstado_civil);
+
+        miConsultaEndereco.setText("Endereco");
+        miConsultaEndereco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miConsultaEnderecoActionPerformed(evt);
+            }
+        });
+        ListCategoria.add(miConsultaEndereco);
 
         jMenuBar1.add(ListCategoria);
 
@@ -239,6 +259,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
         listEstado_civil.setVisible(true);
     }//GEN-LAST:event_miConsultaEstado_civilActionPerformed
 
+    private void miCadastroEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCadastroEnderecoActionPerformed
+        // TODO add your handling code here:
+          CadEndereco cadEndereco = new CadEndereco();
+        cadEndereco.setVisible(true);
+    }//GEN-LAST:event_miCadastroEnderecoActionPerformed
+
+    private void miConsultaEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConsultaEnderecoActionPerformed
+        // TODO add your handling code here:
+          ListEndereco listEndereco = new ListEndereco();
+        listEndereco.setVisible(true);
+    }//GEN-LAST:event_miConsultaEnderecoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -281,11 +313,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem miCadastroCidade;
+    private javax.swing.JMenuItem miCadastroEndereco;
     private javax.swing.JMenuItem miCadastroEstado_civil;
     private javax.swing.JMenuItem miCadastroPais;
     private javax.swing.JMenuItem miCadrastroCategoria;
     private javax.swing.JMenuItem miConsultaCategoria;
     private javax.swing.JMenuItem miConsultaCidade;
+    private javax.swing.JMenuItem miConsultaEndereco;
     private javax.swing.JMenuItem miConsultaEstado;
     private javax.swing.JMenuItem miConsultaEstado_civil;
     private javax.swing.JMenuItem miConsultaPais;

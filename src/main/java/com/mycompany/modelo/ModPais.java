@@ -9,8 +9,8 @@ package com.mycompany.modelo;
  * @author kaua.1880
  */
 public class ModPais {
-      private int id;
-    private String nome;
+        private int id;
+        private String nome;
 
     public ModPais(){
     }

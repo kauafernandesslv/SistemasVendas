@@ -170,7 +170,7 @@ public class CadPais extends javax.swing.JFrame {
         int escolha =
         JOptionPane.showConfirmDialog(
             null,
-            "Deseja  excluir a categoria " + tfNome.getText() + "?");
+            "Deseja  excluir a pais " + tfNome.getText() + "?");
 
         if(escolha == JOptionPane.YES_OPTION)
         excluir();
@@ -200,7 +200,7 @@ private void inserir(){
             tfNome.setText("");
           
         }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível alterar a categoria!");
+            JOptionPane.showMessageDialog(null, "Não foi possível alterar a pais!");
         }
         
         ((ListPais) Formularios.listPais).listarTodos();
@@ -218,7 +218,7 @@ private void inserir(){
             tfNome.setText("");
           
         }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível excluir a categoria!");
+            JOptionPane.showMessageDialog(null, "Não foi possível excluir a pais!");
         }
         
         ((ListPais) Formularios.listPais).listarTodos();

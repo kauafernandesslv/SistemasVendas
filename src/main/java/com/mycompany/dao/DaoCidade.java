@@ -17,9 +17,9 @@ import java.sql.ResultSet;
  * @author kaua.1880
  */
 public class DaoCidade  extends BancoDeDadosMySql{
-    private String sql; {
+    private String sql; 
     
-}
+
         public Boolean inserir(int id, int id_estado, String nome){
         try{
             sql = "INSERT INTO CIDADE (ID, ID_ESTADO, NOME) VALUES (?, ?, ?)";
