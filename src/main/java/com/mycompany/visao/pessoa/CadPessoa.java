@@ -5,14 +5,17 @@
 package com.mycompany.visao.pessoa;
 
 import com.mycompany.dao.DaoCidade;
+import com.mycompany.dao.DaoCliente;
 import com.mycompany.dao.DaoEndereco;
 import com.mycompany.dao.DaoEstado_civil;
 import com.mycompany.dao.DaoPessoa;
 import com.mycompany.ferramentas.Constantes;
 import com.mycompany.ferramentas.DadosTemporarios;
 import com.mycompany.ferramentas.Formularios;
+import com.mycompany.modelo.ModCliente;
 import com.mycompany.modelo.ModEndereco;
 import com.mycompany.modelo.ModPessoa;
+import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -29,17 +32,20 @@ public class CadPessoa extends javax.swing.JFrame {
         initComponents();
         
        carregarEstadosCivis();
-      carregarCidades();
+        carregarCidades();
         
         if(!existeDadosTemporarios()){
             DaoPessoa daoPessoa = new DaoPessoa();
             DaoEndereco daoEndereco = new DaoEndereco();
+            DaoCliente daoCliente = new DaoCliente();
             
             int id = daoPessoa.buscarProximoId(); 
             int idEnd = daoEndereco.buscarProximoId();
+            int idCli = daoCliente.buscarProximoId();
             if (id > 0){
                 tfId.setText(String.valueOf(id));
                 tfIdEndereco.setText(String.valueOf(idEnd));
+                tfIdCliente.setText(String.valueOf(idCli));
             }
             
             btnAcao.setText(Constantes.BTN_SALVAR_TEXT);
@@ -58,13 +64,23 @@ public class CadPessoa extends javax.swing.JFrame {
         
         setExtendedState(MAXIMIZED_BOTH);
         
+        
+        recuperaIdEstadoCivil();
+        recuperaIdCidade();
+        
+        setLocationRelativeTo(null);
+        
+        tfId.setEnabled(false);
+        
+        setExtendedState(MAXIMIZED_BOTH);
+        
         tfIdEndereco.setVisible(false);
         tfIdEstado_civil.setVisible(false);
         tfIdCidade.setVisible(false);
     }
 
     private Boolean existeDadosTemporarios(){        
-        if(DadosTemporarios.tempObject instanceof ModPessoa){
+       if(DadosTemporarios.tempObject instanceof ModPessoa){
             int id = ((ModPessoa) DadosTemporarios.tempObject).getId();
             int idEndereco = ((ModPessoa) DadosTemporarios.tempObject).getIdEndereco();
             int idEstadoCivil = ((ModPessoa) DadosTemporarios.tempObject).getIdEstado_civil();
@@ -117,11 +133,10 @@ public class CadPessoa extends javax.swing.JFrame {
                 jcbCidade.setSelectedIndex(index);
             }catch(Exception e){
                 System.out.println(e.getMessage());
-            }
             //
             
             //
-            int index = 0;
+             int index = 0;
             for(int i = 0; i < jcbGenero.getItemCount(); i++){
                 if(jcbGenero.getItemAt(i).equals(genero)){
                     index = i;
@@ -130,6 +145,8 @@ public class CadPessoa extends javax.swing.JFrame {
             }
             jcbGenero.setSelectedIndex(index);
             //
+            
+              //
             
             String rua = ((ModEndereco) DadosTemporarios.tempObject2).getNome_rua();
             int cep = ((ModEndereco) DadosTemporarios.tempObject2).getCep();
@@ -141,7 +158,7 @@ public class CadPessoa extends javax.swing.JFrame {
             
             DadosTemporarios.tempObject = null;
             DadosTemporarios.tempObject2 = null;
-            
+            }
             return true;
         }else
             return false;
@@ -348,8 +365,18 @@ public class CadPessoa extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         btnAcao.setText("Salvar");
+        btnAcao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcaoActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("id");
 
@@ -367,7 +394,7 @@ public class CadPessoa extends javax.swing.JFrame {
 
         jLabel8.setText("ID cidade");
 
-        jLabel9.setText("cidade");
+        jLabel9.setText("CIDADE");
 
         jLabel10.setText("Rua");
 
@@ -511,6 +538,27 @@ public class CadPessoa extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAcaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcaoActionPerformed
+        // TODO add your handling code here:
+           DaoPessoa daoPessoa = new DaoPessoa();
+        
+        if(camposObrigatoriosPreenchidos(new JTextField[]{tfRua, tfCep, tfNumero, tfNome, tfSobrenome, tfTelefone, tfEmail})){
+            if (btnAcao.getText() == Constantes.BTN_SALVAR_TEXT){
+                inserirEndereco();
+                inserir();
+                
+                tfId.setText(String.valueOf(daoPessoa.buscarProximoId()));
+            }else if (btnAcao.getText() == Constantes.BTN_ALTERAR_TEXT){            
+                alterarEndereco();
+                alterar();
+            }
+        }
+    }//GEN-LAST:event_btnAcaoActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
     /**
      * @param args the command line arguments

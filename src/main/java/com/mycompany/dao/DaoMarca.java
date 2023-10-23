@@ -10,31 +10,24 @@ import static com.mycompany.ferramentas.BancoDeDadosMySql.getResultado;
 import static com.mycompany.ferramentas.BancoDeDadosMySql.getStatement;
 import static com.mycompany.ferramentas.BancoDeDadosMySql.setResultado;
 import static com.mycompany.ferramentas.BancoDeDadosMySql.setStatement;
-import com.mycompany.modelo.ModEstado;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 
 /**
  *
  * @author kaua.1880
  */
-public class DaoEstado extends BancoDeDadosMySql {
+public class DaoMarca extends BancoDeDadosMySql{
+    private String sql;
     
-private String sql; 
-
-public Boolean inserir(int id, int id_pais, String nome){
+    public Boolean inserir(int id, String nome){
         try{
-            sql = "INSERT INTO ESTADO (ID, ID_PAIS, NOME) VALUES (?, ?, ?)";
+            sql = "INSERT INTO MARCA (ID, NOME) VALUES (?, ?)";
             
             setStatement(getConexao().prepareStatement(sql));
             
             getStatement().setInt(1, id);
-            getStatement().setInt(2, id_pais);
-            getStatement().setString(3, nome);
-
+            getStatement().setString(2, nome);
             
             getStatement().executeUpdate();
             
@@ -45,16 +38,14 @@ public Boolean inserir(int id, int id_pais, String nome){
         }
     }
     
-    public Boolean alterar(int id, int idNovoPais, String novoNome, String novaUf){
+    public Boolean alterar(int id, String novoNome){
         try{
-            sql = "UPDATE ESTADO SET ID_PAIS = ?, NOME = ? WHERE ID = ?";
+            sql = "UPDATE MARCA SET NOME = ? WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
-            getStatement().setInt(4, id);
-            getStatement().setInt(1, idNovoPais);
-            getStatement().setString(2, novoNome);
-           
+            getStatement().setInt(2, id);
+            getStatement().setString(1, novoNome);
             
             getStatement().executeUpdate();
             
@@ -67,7 +58,7 @@ public Boolean inserir(int id, int id_pais, String nome){
     
     public Boolean excluir(int id){
         try{
-            sql = "DELETE FROM ESTADO WHERE ID = ?";
+            sql = "DELETE FROM MARCA WHERE ID = ?";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -85,14 +76,11 @@ public Boolean inserir(int id, int id_pais, String nome){
     public ResultSet listarTodos(){
         try{
             sql = 
-                " SELECT                    " +
-                "   EST.ID,                 " +
-                "   PA.NOME AS PAIS,        " +
-                "   EST.NOME AS ESTADO     " +
-                " FROM                      " +
-                "   ESTADO EST              " +
-                " JOIN PAIS PA ON           " +
-                "   PA.ID = EST.ID_PAIS     " ;
+                " SELECT  " +
+                "   ID,   " +
+                "   NOME  " +
+                " FROM    " +
+                "   MARCA " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -107,17 +95,12 @@ public Boolean inserir(int id, int id_pais, String nome){
     public ResultSet listarPorId(int id){
         try{
             sql = 
-                " SELECT                    " +
-                "   EST.ID,                 " +
-                "   PA.NOME AS PAIS,        " +
-                "   EST.NOME AS ESTADO     " +
-
-                " FROM                      " +
-                "   ESTADO EST              " +
-                " JOIN PAIS PA ON           " +
-                "   PA.ID = EST.ID_PAIS     " +
-                " WHERE                     " +
-                "   EST.ID = ?              " ;
+                " SELECT                            " +
+                "   ID,                             " +
+                "   NOME                            " +
+                " FROM                              " +
+                "   MARCA                           " +
+                " WHERE ID = ?                      " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -134,17 +117,12 @@ public Boolean inserir(int id, int id_pais, String nome){
     public ResultSet listarPorNome(String nome){
         try{
             sql = 
-                " SELECT                    " +
-                "   EST.ID,                 " +
-                "   PA.NOME AS PAIS,        " +
-                "   EST.NOME AS ESTADO     " +
-
-                " FROM                      " +
-                "   ESTADO EST              " +
-                " JOIN PAIS PA ON           " +
-                "   PA.ID = EST.ID_PAIS     " +
-                " WHERE                     " +
-                "   EST.NOME LIKE ?         " ;
+                " SELECT                            " +
+                "   ID,                             " +
+                "   NOME                            " +
+                " FROM                              " +
+                "   MARCA                           " +
+                " WHERE NOME LIKE ?                    " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -158,38 +136,11 @@ public Boolean inserir(int id, int id_pais, String nome){
         return getResultado();
     }
     
-    public ResultSet listarPorPais(String estado){
-        try{
-            sql = 
-                " SELECT                    " +
-                "   EST.ID,                 " +
-                "   PA.NOME AS PAIS,        " +
-                "   EST.NOME AS ESTADO     " +
-
-                " FROM                      " +
-                "   ESTADO EST              " +
-                " JOIN PAIS PA ON           " +
-                "   PA.ID = EST.ID_PAIS     " +
-                " WHERE                     " +
-                "   PA.NOME LIKE ?             " ;
-            
-            setStatement(getConexao().prepareStatement(sql));
-            
-            getStatement().setString(1, estado + "%");
-            
-            setResultado(getStatement().executeQuery());
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        
-        return getResultado();
-    }
-    
     public int buscarProximoId(){
-        int id = -1;
+        int id = 0;
         
         try{
-            sql = "SELECT IFNULL(MAX(ID), 0) + 1 FROM ESTADO";
+            sql = "SELECT IFNULL(MAX(ID), 0) + 1 FROM MARCA";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -205,3 +156,5 @@ public Boolean inserir(int id, int id_pais, String nome){
         return id;
     }
 }
+    
+

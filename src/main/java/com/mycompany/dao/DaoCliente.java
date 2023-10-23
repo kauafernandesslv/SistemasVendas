@@ -80,9 +80,9 @@ public class DaoCliente extends BancoDeDadosMySql{
             
             setResultado(getStatement().executeQuery());
             
-            getResultado().next(); //Move para o primeiro registro.
+            getResultado().next(); 
             
-            id = getResultado().getInt(1); //Pega o valor retornado na consulta
+            id = getResultado().getInt(1);
         }catch(Exception e){
             System.out.println(e.getMessage());
         }

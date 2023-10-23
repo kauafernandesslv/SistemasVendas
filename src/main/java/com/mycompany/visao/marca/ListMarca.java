@@ -2,118 +2,107 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.visao.estado;
+package com.mycompany.visao.marca;
 
-import com.mycompany.visao.categoria.*;
-import com.mycompany.dao.DaoEstado;
+import com.mycompany.dao.DaoMarca;
 import com.mycompany.dao.DaoPais;
 import com.mycompany.ferramentas.DadosTemporarios;
-import com.mycompany.modelo.ModEstado;
+import com.mycompany.ferramentas.Formularios;
+import com.mycompany.modelo.ModMarca;
+import com.mycompany.modelo.ModPais;
+import com.mycompany.visao.pais.CadPais;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author kaua.1880
+ * @author 10156
  */
-public class ListEstado extends javax.swing.JFrame {
+public class ListMarca extends javax.swing.JFrame {
 
     /**
-     * Creates new form ListCategoria
+     * Creates new form ListMarca
      */
-    public ListEstado() {
+    public ListMarca() {
         initComponents();
         
         setLocationRelativeTo(null);
         
         listarTodos();
-        
     }
-    
 
-     public void listarTodos(){
+    public void listarTodos(){
         try{
             //Pega o model da tabela definido no design
-            DefaultTableModel defaultTableModel = (DefaultTableModel) tableEstado.getModel();
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableMarca.getModel();
             
-            tableEstado.setModel(defaultTableModel);
+            tableMarca.setModel(defaultTableModel);
 
-            DaoEstado daoEstado = new DaoEstado();
+            DaoMarca daoMarca = new DaoMarca();
 
             //Atribui o resultset retornado a uma variável para ser usada.
-            ResultSet resultSet = daoEstado.listarTodos();
+            ResultSet resultSet = daoMarca.listarTodos();
             
             defaultTableModel.setRowCount(0);
             while (resultSet.next()){
                 String id = resultSet.getString(1);
-                String pais = resultSet.getString(2);
-                String nome = resultSet.getString(3);
-             
+                String nome = resultSet.getString(2);
                 
-                defaultTableModel.addRow(new Object[]{id, pais, nome});
-            }
-        }catch(Exception e){
-            
-        }
-    }
-         public void listarPorId(int pId){
-        try{
-            //Define o model da tabela.
-            DefaultTableModel defaultTableModel = (DefaultTableModel) tableEstado.getModel();
-
-            tableEstado.setModel(defaultTableModel);
-
-            DaoEstado daoEstado = new DaoEstado();
-
-            //Atribui o resultset retornado a uma variável para ser usada.
-            ResultSet resultSet = daoEstado.listarPorId(pId);
-            
-            defaultTableModel.setRowCount(0);
-            while (resultSet.next()){
-                String id = resultSet.getString(1);
-                String pais = resultSet.getString(2);
-                String nome = resultSet.getString(3);
-                
-                
-                defaultTableModel.addRow(new Object[]{id, pais, nome});
+                defaultTableModel.addRow(new Object[]{id, nome});
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
-    
     }
+    
+    public void listarPorId(int pId){
+        try{
+            //Define o model da tabela.
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableMarca.getModel();
+
+            tableMarca.setModel(defaultTableModel);
+
+            DaoMarca daoMarca = new DaoMarca();
+
+            //Atribui o resultset retornado a uma variável para ser usada.
+            ResultSet resultSet = daoMarca.listarPorId(pId);
+            
+            defaultTableModel.setRowCount(0);
+            while (resultSet.next()){
+                String id = resultSet.getString(1);
+                String nome = resultSet.getString(2);
+                
+                defaultTableModel.addRow(new Object[]{id, nome});
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    
     public void listarPorNome(String pNome){
         try{
             //Define o model da tabela.
-            DefaultTableModel defaultTableModel = (DefaultTableModel) tableEstado.getModel();
+            DefaultTableModel defaultTableModel = (DefaultTableModel) tableMarca.getModel();
             
-            tableEstado.setModel(defaultTableModel);
+            tableMarca.setModel(defaultTableModel);
 
-            DaoEstado daoEstado = new DaoEstado();
+            DaoMarca daoMarca = new DaoMarca();
 
             //Atribui o resultset retornado a uma variável para ser usada.
-            ResultSet resultSet = daoEstado.listarPorNome(pNome);
+            ResultSet resultSet = daoMarca.listarPorNome(pNome);
             
             defaultTableModel.setRowCount(0);
             while (resultSet.next()){
                 String id = resultSet.getString(1);
-                String pais = resultSet.getString(2);
-                String nome = resultSet.getString(3);
+                String nome = resultSet.getString(2);
                 
-                
-                defaultTableModel.addRow(new Object[]{id, pais, nome});
+                defaultTableModel.addRow(new Object[]{id, nome});
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
     
-    
-   
-    
-     
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -127,46 +116,43 @@ public class ListEstado extends javax.swing.JFrame {
         jcbTipoFiltro = new javax.swing.JComboBox<>();
         tfFiltro = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableEstado = new javax.swing.JTable();
+        tableMarca = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jcbTipoFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "ID", "Nome", "Descrição" }));
-        jcbTipoFiltro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcbTipoFiltroActionPerformed(evt);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
         });
 
-        tfFiltro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfFiltroActionPerformed(evt);
-            }
-        });
+        jcbTipoFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TODOS", "ID", "NOME" }));
 
-        tableEstado.setModel(new javax.swing.table.DefaultTableModel(
+        tableMarca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "ID", "Nome", "Descrição"
+                "ID", "NOME"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tableEstado.addMouseListener(new java.awt.event.MouseAdapter() {
+        tableMarca.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tableEstadoMouseClicked(evt);
+                tableMarcaMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tableEstado);
+        jScrollPane1.setViewportView(tableMarca);
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -180,14 +166,13 @@ public class ListEstado extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jcbTipoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(tfFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jcbTipoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfFiltro))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnBuscar)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -200,82 +185,64 @@ public class ListEstado extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jcbTipoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnBuscar)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jcbTipoFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTipoFiltroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jcbTipoFiltroActionPerformed
+    private void tableMarcaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMarcaMouseClicked
+        if (evt.getClickCount() == 2){
+            ModMarca modMarca = new ModMarca();
 
-    private void tfFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfFiltroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfFiltroActionPerformed
+            modMarca.setId(Integer.parseInt(String.valueOf(tableMarca.getValueAt(tableMarca.getSelectedRow(), 0))));
+            modMarca.setNome(String.valueOf(tableMarca.getValueAt(tableMarca.getSelectedRow(), 1)));
+
+            DadosTemporarios.tempObject = (ModMarca) modMarca;
+
+            CadMarca cadMarca = new CadMarca();
+            cadMarca.setVisible(true);
+        }
+    }//GEN-LAST:event_tableMarcaMouseClicked
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
         switch (jcbTipoFiltro.getSelectedIndex()){
             case 0:
-            listarTodos();
-             break;
+                listarTodos();
+                break;
             case 1:
                 listarPorId(Integer.parseInt(tfFiltro.getText()));
                 break;
             case 2:
                 listarPorNome(tfFiltro.getText());
                 break;
-    
-    }//GEN-LAST:event_btnBuscarActionPerformed
-    }
-    private void tableEstadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEstadoMouseClicked
-        // TODO add your handling code here:
-          try{
-            if (evt.getClickCount() == 2){
-                ModEstado modEstado = new ModEstado();
-
-                modEstado.setId(Integer.parseInt(String.valueOf(tableEstado.getValueAt(tableEstado.getSelectedRow(), 0))));
-                modEstado.setNome(String.valueOf(tableEstado.getValueAt(tableEstado.getSelectedRow(), 2)));
-               
-                
-                DaoPais daoPais = new DaoPais();
-                ResultSet resultSet = daoPais.listarPorNome(String.valueOf(tableEstado.getValueAt(tableEstado.getSelectedRow(), 1)));
-
-                int idPais = -1;
-                while(resultSet.next())
-                    idPais = resultSet.getInt("ID");
-
-                modEstado.setIdPais(idPais);
-                
-                DadosTemporarios.tempObject = (ModEstado) modEstado;
-
-                CadEstado cadEstado = new CadEstado();
-                cadEstado.setVisible(true);
-            }
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        
         }
-    }//GEN-LAST:event_tableEstadoMouseClicked
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        Formularios.listMarca = null;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -294,21 +261,20 @@ public class ListEstado extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ListEstado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListMarca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ListEstado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListMarca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ListEstado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListMarca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ListEstado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListMarca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ListEstado().setVisible(true);
+                new ListMarca().setVisible(true);
             }
         });
     }
@@ -318,7 +284,7 @@ public class ListEstado extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> jcbTipoFiltro;
-    private javax.swing.JTable tableEstado;
+    private javax.swing.JTable tableMarca;
     private javax.swing.JTextField tfFiltro;
     // End of variables declaration//GEN-END:variables
 }

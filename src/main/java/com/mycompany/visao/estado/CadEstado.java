@@ -48,7 +48,7 @@ public class CadEstado extends javax.swing.JFrame {
         
         tfId.setEnabled(false);
         
-        tfIdPais.setVisible(false);
+//        tfIdPais.setVisible(false);
     }
     
     private Boolean existeDadosTemporarios(){        
@@ -68,7 +68,7 @@ public class CadEstado extends javax.swing.JFrame {
                 DaoPais daoPais = new DaoPais();
                 ResultSet resultSet = daoPais.listarPorId(idPais);
                 resultSet.next();
-                String pais = resultSet.getString("NOME");
+                String pais = resultSet.getString("nome");
                 int index = 0;
                 for(int i = 0; i < jcbPais.getItemCount(); i++){
                     if(jcbPais.getItemAt(i).equals(pais)){
@@ -211,6 +211,12 @@ public class CadEstado extends javax.swing.JFrame {
             }
         });
 
+        jcbPais.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcbPaisItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -300,6 +306,10 @@ public class CadEstado extends javax.swing.JFrame {
             excluir();
         
     }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void jcbPaisItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbPaisItemStateChanged
+        recuperaIdPais();
+    }//GEN-LAST:event_jcbPaisItemStateChanged
 
     /**
      * @param args the command line arguments

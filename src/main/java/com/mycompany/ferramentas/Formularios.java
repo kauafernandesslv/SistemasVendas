@@ -23,6 +23,9 @@ public class Formularios {
     public static JFrame listEstado_civil;
     public static JFrame cadEndereco;
     public static JFrame listEndereco;
-    public static JFrame CadPessoa;
-    public static JFrame ListPessoa;
+    public static JFrame cadPessoa;
+    public static JFrame listPessoa;
+     public static JFrame cadMarca;
+      public static JFrame listMarca;
+     
 }

@@ -9,8 +9,7 @@ package com.mycompany.ferramentas;
  * @author kaua.1880
  */
 public class Constantes {
-       public static String BTN_SALVAR_TEXT = "Salvar";
+    public static String BTN_SALVAR_TEXT = "Salvar";
     public static String BTN_ALTERAR_TEXT = "Alterar";
     public static String BTN_EXCLUIR_TEXT = "Excluir";
 }
-
