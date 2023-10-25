@@ -50,7 +50,7 @@ public class CadEndereco extends javax.swing.JFrame {
    private Boolean existeDadosTemporarios(){        
         if(DadosTemporarios.tempObject instanceof ModEndereco){
             int id = ((ModEndereco) DadosTemporarios.tempObject).getId();
-            String nome = ((ModEndereco) DadosTemporarios.tempObject).getNome_rua();
+            String nome = ((ModEndereco) DadosTemporarios.tempObject).getNomeRua();
             
             tfId.setText(String.valueOf(id));
             tfNome_rua.setText(nome);
