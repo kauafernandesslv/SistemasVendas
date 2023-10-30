@@ -14,9 +14,9 @@ import java.sql.ResultSet;
 public class DaoPessoa  extends BancoDeDadosMySql{
     private String sql;
     
-    public Boolean inserir(int id, int idEndereco, int idEstadoCivil, String nome, String sobrenome, String genero, String telefone, String email){
+ public Boolean inserir(int id, int idEndereco, int idEstadoCivil, String nome, String sobrenome, String genero, String telefone, String email, String usuario, String senha){
         try{
-            sql = "INSERT INTO PESSOA (ID, ID_ENDERECO, ID_ESTADO_CIVIL, NOME, SOBRENOME, GENERO, TELEFONE, EMAIL) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            sql = "INSERT INTO PESSOA (ID, ID_ENDERECO, ID_ESTADO_CIVIL, NOME, SOBRENOME, GENERO, TELEFONE, EMAIL, USUARIO, SENHA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -28,6 +28,8 @@ public class DaoPessoa  extends BancoDeDadosMySql{
             getStatement().setString(6, genero);
             getStatement().setString(7, telefone);
             getStatement().setString(8, email);
+            getStatement().setString(9, usuario);
+            getStatement().setString(10, senha);
             
             getStatement().executeUpdate();
             
@@ -128,7 +130,8 @@ public class DaoPessoa  extends BancoDeDadosMySql{
                 "   P.TELEFONE AS TELEFONE,         " +
                 "   P.EMAIL AS EMAIL,               " +
                 "   EC.NOME AS ESTADO_CIVIL,        " + 
-                "   P.ID_ENDERECO AS ID_ENDERECO    " +
+                "   P.ID_ENDERECO AS ID_ENDERECO,   " +
+                "   E.ID AS ID_ENDERECO             " +
                 " FROM                              " +
                 "   PESSOA P                        " +
                 " JOIN ENDERECO E ON                " +
@@ -174,7 +177,7 @@ public class DaoPessoa  extends BancoDeDadosMySql{
                 "   C.ID = E.ID_CIDADE              " +
                 " JOIN ESTADO_CIVIL EC ON           " +
                 "   EC.ID = P.ID_ESTADO_CIVIL       " +
-                " WHERE E.RUA LIKE ?                " ;
+                " WHERE E.NOME_RUA LIKE ?           " ;
             
             setStatement(getConexao().prepareStatement(sql));
             
@@ -484,6 +487,68 @@ public class DaoPessoa  extends BancoDeDadosMySql{
         return getResultado();
     }
     
+    public ResultSet listarPorUsuario(String usuario, boolean buscaParcial){
+        try{
+            sql = 
+                " SELECT                            " +
+                "   P.ID AS ID,                     " +
+                "   C.NOME AS CIDADE,               " +
+                "   E.NOME_RUA AS RUA,              " +
+                "   E.CEP AS CEP,                   " +
+                "   E.NUMERO_RESIDENCIA AS NUM_RES, " +
+                "   P.NOME AS NOME,                 " +
+                "   P.SOBRENOME AS SOBRENOME,       " +
+                "   P.GENERO AS GENERO,             " +
+                "   P.TELEFONE AS TELEFONE,         " +
+                "   P.EMAIL AS EMAIL,               " +
+                "   EC.NOME AS ESTADO_CIVIL         " +
+                " FROM                              " +
+                "   PESSOA P                        " +
+                " JOIN ENDERECO E ON                " +
+                "   E.ID = P.ID_ENDERECO            " +
+                " JOIN CIDADE C ON                  " +
+                "   C.ID = E.ID_CIDADE              " +
+                " JOIN ESTADO_CIVIL EC ON           " +
+                "   EC.ID = P.ID_ESTADO_CIVIL       " +
+                " WHERE P.USUARIO LIKE ?            " ;
+            
+            setStatement(getConexao().prepareStatement(sql));
+            
+            if(buscaParcial)
+                getStatement().setString(1, usuario + "%");
+            else
+                getStatement().setString(1, usuario);
+            
+            setResultado(getStatement().executeQuery());
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+        return getResultado();
+    }
+    
+    public ResultSet recuperaSenha(String usuario){
+        try{
+            sql = 
+                " SELECT                            " +
+                "   ID,                             " +
+                "   SENHA                           " +
+                " FROM                              " +
+                "   PESSOA                          " +
+                " WHERE USUARIO LIKE ?                 " ;
+            
+            setStatement(getConexao().prepareStatement(sql));
+            
+            getStatement().setString(1, usuario);
+            
+            setResultado(getStatement().executeQuery());
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+        return getResultado();
+    }
+    
     public int buscarProximoId(){
         int id = -1;
         
@@ -504,5 +569,3 @@ public class DaoPessoa  extends BancoDeDadosMySql{
         return id;
     }
 }
-    
-

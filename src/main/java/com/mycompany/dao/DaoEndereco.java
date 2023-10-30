@@ -18,7 +18,7 @@ public class DaoEndereco extends BancoDeDadosMySql {
     
 private String sql;
    
-    public Boolean inserir(int id, int id_cidade, String nome_rua, int cep, int numero_residencia){
+    public Boolean inserir(int id, int id_cidade, String nome_rua, String cep, String numero_residencia){
         try{
             sql = "INSERT INTO ENDERECO (ID, ID_CIDADE, NOME_RUA, CEP, NUMERO_RESIDENCIA) VALUES (?, ?, ?, ?, ?)";
            
@@ -27,8 +27,8 @@ private String sql;
             getStatement().setInt(1, id);
             getStatement().setInt(2, id_cidade);
             getStatement().setString(3, nome_rua);
-            getStatement().setInt(4, cep);
-            getStatement().setInt(5, numero_residencia);
+            getStatement().setString(4, cep);
+            getStatement().setString(5, numero_residencia);
            
             getStatement().executeUpdate();
            

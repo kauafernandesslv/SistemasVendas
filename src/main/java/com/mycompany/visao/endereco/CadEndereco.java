@@ -63,40 +63,40 @@ public class CadEndereco extends javax.swing.JFrame {
     }
     
     private void inserir(){
-        DaoEndereco daoEndereco = new DaoEndereco();
-        
-        if (daoEndereco.inserir(Integer.parseInt(tfId.getText()),Integer.parseInt(tfIdCidade.getText()), tfNome_rua.getText(), Integer.parseInt(tfCep.getText()), Integer.parseInt(tfNumero_residencia.getText()))){
-            JOptionPane.showMessageDialog(null, "endereco salvo com sucesso!");
-            
-            tfId.setText("");
-            tfIdCidade.setText("");
-            tfNome_rua.setText("");
-            tfNumero_residencia.setText("");
-            tfCep.setText("");
-        }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível salvar o endereco!");
-        }
+//        DaoEndereco daoEndereco = new DaoEndereco();
+//        
+//        if (daoEndereco.inserir(Integer.parseInt(tfId.getText()),Integer.parseInt(tfIdCidade.getText()), tfNome_rua.getText(), Integer.parseInt(tfCep.getText()), Integer.parseInt(tfNumero_residencia.getText()))){
+//            JOptionPane.showMessageDialog(null, "endereco salvo com sucesso!");
+//            
+//            tfId.setText("");
+//            tfIdCidade.setText("");
+//            tfNome_rua.setText("");
+//            tfNumero_residencia.setText("");
+//            tfCep.setText("");
+//        }else{
+//            JOptionPane.showMessageDialog(null, "Não foi possível salvar o endereco!");
+//        }
     }
    
      
     private void alterar(){
-        DaoEndereco daoEndereco = new DaoEndereco();
-        
-        if (daoEndereco.inserir(Integer.parseInt(tfId.getText()),Integer.parseInt(tfIdCidade.getText()), tfNome_rua.getText(), Integer.parseInt(tfCep.getText()), Integer.parseInt(tfNumero_residencia.getText()))){
-            JOptionPane.showMessageDialog(null, "País alterada com sucesso!");
-            
-            tfId.setText("");
-            tfIdCidade.setText("");
-            tfNome_rua.setText("");
-            tfNumero_residencia.setText("");
-            tfCep.setText("");
-        }else{
-            JOptionPane.showMessageDialog(null, "Não foi possível alterar a país!");
-        }
-        
-        ((ListEndereco) Formularios.listEndereco).listarTodos();
-        
-        dispose();
+//        DaoEndereco daoEndereco = new DaoEndereco();
+//        
+//        if (daoEndereco.inserir(Integer.parseInt(tfId.getText()),Integer.parseInt(tfIdCidade.getText()), tfNome_rua.getText(), Integer.parseInt(tfCep.getText()), Integer.parseInt(tfNumero_residencia.getText()))){
+//            JOptionPane.showMessageDialog(null, "País alterada com sucesso!");
+//            
+//            tfId.setText("");
+//            tfIdCidade.setText("");
+//            tfNome_rua.setText("");
+//            tfNumero_residencia.setText("");
+//            tfCep.setText("");
+//        }else{
+//            JOptionPane.showMessageDialog(null, "Não foi possível alterar a país!");
+//        }
+//        
+//        ((ListEndereco) Formularios.listEndereco).listarTodos();
+//        
+//        dispose();
     }
     
     private void excluir(){
