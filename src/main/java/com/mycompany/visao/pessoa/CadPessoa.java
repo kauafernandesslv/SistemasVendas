@@ -165,7 +165,7 @@ public class CadPessoa extends javax.swing.JFrame {
         if (daoPessoa.inserir(Integer.parseInt(tfId.getText()), Integer.parseInt(tfIdEndereco.getText()), Integer.parseInt(tfIdEstadoCivil.getText()), tfNome.getText(), tfSobrenome.getText(), (String) jcbGenero.getSelectedItem(), tfTelefone.getText(), tfEmail.getText(), tfUsuario.getText(), String.valueOf(pfSenha.getPassword()))){
             JOptionPane.showMessageDialog(null, "Pessoa salva com sucesso!");
             
-            tfId.setText(String.valueOf(daoPessoa.buscarProximoId()));
+//            tfId.setText(String.valueOf(daoPessoa.buscarProximoId()));
          tfIdEndereco.setText(String.valueOf(daoEndereco.buscarProximoId()));
             tfNome.setText("");
             tfSobrenome.setText("");
